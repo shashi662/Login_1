@@ -8,13 +8,20 @@ app.use(express.json());
 app.use((req, res, next) => {
   res.set({
     "Access-Control-Allow-Origin": "*",
-    //   "Access-Control-Allow-Methods": "*",
-    //   "Access-Control-Allow-Headers":
-    //     "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
   });
+  next();
 });
 
-app.use(authRouter);
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+app.use((req, res, next) => {
+  console.log("hitting middleware");
+  next();
+}, authRouter);
+
 mongoose
   .connect(
     `mongodb+srv://kumarshashikant05:Ef1w6oESWAwJ5J5c@cluster0.m86kdjb.mongodb.net/users`
