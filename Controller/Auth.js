@@ -55,7 +55,7 @@ const ForgotPassword = async (req, res, next) => {
   }
   user.generateHash();
   await user.save();
-  const resetUrl = `${req.protocol}://${req.hostname}:3000/resetPassword/${user.resetPasswordToken}`;
+  const resetUrl = `${req.protocol}://${req.hostname}/resetPassword/${user.resetPasswordToken}`;
   const body = `Please click on URL ${resetUrl} to reset password`;
   sendMail(email, body);
 
