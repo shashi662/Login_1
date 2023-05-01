@@ -38,16 +38,16 @@ const Signup = async (req, res, next) => {
   if (password !== confirmPassword) {
     return next(new Error("Check both password"));
   }
-
-  try {
-    const user = await User.create({ name, email, password, confirmPassword });
-    return res.status(201).json({
-      status: "success",
-      data: user,
-    });
-  } catch (error) {
-    return next(new Error("Email already in use"));
-  }
+  res.send({ Name: "shashikant" });
+  // try {
+  //   const user = await User.create({ name, email, password, confirmPassword });
+  //   return res.status(201).json({
+  //     status: "success",
+  //     data: user,
+  //   });
+  // } catch (error) {
+  //   return next(new Error("Email already in use"));
+  // }
 };
 
 const ForgotPassword = async (req, res, next) => {

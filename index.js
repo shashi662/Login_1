@@ -34,7 +34,10 @@ app.all("*", (req, res) => {
 });
 
 app.use((req, res, next, error) => {
-  return new Error(error.message);
+  if (error) {
+    return new Error(error.message);
+  }
+  next();
 });
 mongoose
   .connect(
