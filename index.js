@@ -32,3 +32,4 @@ mongoose
     });
   })
   .catch(() => console.log("not connected"));
+module.exports = app;
