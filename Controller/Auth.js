@@ -28,13 +28,13 @@ const Signin = async (req, res) => {
 };
 
 const Signup = async (req, res, next) => {
-  // const { name, email, password } = req.body;
-  // let user;
-  // try {
-  //   user = await User.create({ name, email, password });
-  // } catch (error) {
-  //   return next(new Error("Email already in use"));
-  // }
+  const { name, email, password } = req.body;
+  let user;
+  try {
+    user = await User.create({ name, email, password });
+  } catch (error) {
+    return next(new Error("Email already in use"));
+  }
   // const isPasswordMatched = user.comparePassword(confirmPassword);
   // if (!isPasswordMatched) {
   //   await user.deleteOne();
