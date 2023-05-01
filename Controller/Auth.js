@@ -2,7 +2,7 @@ const sendMail = require("../Services/MailService");
 const User = require("../Model/UserSchema");
 
 const Signin = async (req, res) => {
-  console.log("Signin");
+  // console.log("Signin");
   const { email, password } = req.body;
   const data = await User.findOne({ email: email }).select("-__v +password");
 
@@ -65,14 +65,14 @@ const ForgotPassword = async (req, res, next) => {
 };
 
 const ResetPassword = async (req, res, next) => {
-  console.log("Hitting desired root");
+  // console.log("Hitting desired root");
   const { resetToken } = req.params;
 
   const user = await User.findOne({
     resetPasswordToken: resetToken,
     resetPasswordExpires: { $gt: Date.now() },
   });
-  console.log(user);
+  // console.log(user);
   if (!user) {
     return res.status(404).json({
       status: "fail",

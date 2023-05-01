@@ -18,10 +18,10 @@ async function sendMail(userEmail, body) {
 
   mailTransporter.sendMail(mailDetails, function (err) {
     if (err) {
-      console.log(err);
-      console.log("Error Occurs");
+      // console.log(err);
+      // console.log("Error Occurs");
     } else {
-      console.log("Email sent successfully");
+      // console.log("Email sent successfully");
     }
   });
 }
