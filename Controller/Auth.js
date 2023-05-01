@@ -1,9 +1,12 @@
 const sendMail = require("../Services/MailService");
 const User = require("../Model/UserSchema");
 
-const Signin = async (req, res) => {
-  // console.log("Signin");
+const Signin = async (req, res, next) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return next("Please Provide credentials");
+  }
+
   const data = await User.findOne({ email: email }).select("-__v +password");
 
   const isPasswordMatched = data.comparePassword(password);
@@ -29,22 +32,22 @@ const Signin = async (req, res) => {
 
 const Signup = async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
-  let user;
-  try {
-    user = await User.create({ name, email, password, confirmPassword });
-  } catch (error) {
-    return next(new Error("Email already in use"));
+  if (!name || !email || !password || !confirmPassword) {
+    return next("Please provide all credentials");
   }
-  const isPasswordMatched = user.comparePassword(confirmPassword);
-  if (!isPasswordMatched) {
-    await user.deleteOne();
+  if (password !== confirmPassword) {
     return next(new Error("Check both password"));
   }
 
-  res.status(201).json({
-    status: "success",
-    data: user,
-  });
+  try {
+    const user = await User.create({ name, email, password, confirmPassword });
+    return res.status(201).json({
+      status: "success",
+      data: user,
+    });
+  } catch (error) {
+    return next(new Error("Email already in use"));
+  }
 };
 
 const ForgotPassword = async (req, res, next) => {

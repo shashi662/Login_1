@@ -29,20 +29,24 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// storing hassed password;
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
+// compare entered password with hassed password
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
+// create jwt token
 userSchema.methods.createJWTToken = function () {
   return jwt.sign({ id: this._id }, "secret", { expiresIn: "600s" });
 };
 
+// generate hassed code for reset password;
 userSchema.methods.generateHash = function () {
   this.resetPasswordToken = crypto.randomBytes(20).toString("hex");
   this.resetPasswordExpires = Date.now() + 3600000; // one our expiration
