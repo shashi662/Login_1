@@ -12,15 +12,20 @@ const Signin = async (req, res, next) => {
   const isPasswordMatched = data.comparePassword(password);
 
   if (!isPasswordMatched) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Please check your entered credentials",
+    res.status(404).json({
+      success: "false",
+      message: "Invalid credentials",
+      data: {},
+      error: {
+        statusCode: 404,
+        message: "Please enter valid credentials",
+      },
     });
   }
   const jwtToken = data.createJWTToken();
   res.status(201).json({
-    status: "success",
-
+    success: "true",
+    message: "Wow, Login successful",
     data: {
       id: data._id,
       name: data.name,
@@ -33,21 +38,46 @@ const Signin = async (req, res, next) => {
 const Signup = async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
   if (!name || !email || !password || !confirmPassword) {
-    return next("Please provide all credentials");
+    return res.status(404).json({
+      success: "false",
+      message: "Please enter correct credentials",
+      data: {},
+      error: {
+        statusCode: 404,
+        message: "Some Credentials are missing",
+      },
+    });
   }
   if (password !== confirmPassword) {
-    return next(new Error("Check both password"));
+    return res.status(404).json({
+      success: "false",
+      message: "Please enter correct credentials",
+      data: {},
+      error: {
+        statusCode: 404,
+        message: "Password and confirm password are not same",
+      },
+    });
   }
-  res.send({ Name: "shashikant" });
-  // try {
-  //   const user = await User.create({ name, email, password, confirmPassword });
-  //   return res.status(201).json({
-  //     status: "success",
-  //     data: user,
-  //   });
-  // } catch (error) {
-  //   return next(new Error("Email already in use"));
-  // }
+  User.create({ name, email, password, confirmPassword })
+    .then((user) => {
+      return res.status(201).json({
+        success: "true",
+        message: "Wow, Signup successful",
+        data: {},
+      });
+    })
+    .catch((err) => {
+      return res.status(404).json({
+        success: "false",
+        message: err.message,
+        data: {},
+        error: {
+          statusCode: 404,
+          message: err.message,
+        },
+      });
+    });
 };
 
 const ForgotPassword = async (req, res, next) => {
