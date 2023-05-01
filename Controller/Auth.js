@@ -44,7 +44,7 @@ const Signup = async (req, res, next) => {
 
   res.status(201).json({
     status: "success",
-    data: user,
+    data: "user",
   });
 };
 
