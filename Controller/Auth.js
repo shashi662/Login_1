@@ -35,11 +35,11 @@ const Signup = async (req, res, next) => {
   } catch (error) {
     return next(new Error("Email already in use"));
   }
-  const isPasswordMatched = user.comparePassword(confirmPassword);
-  if (!isPasswordMatched) {
-    await user.deleteOne();
-    return next(new Error("Check both password"));
-  }
+  // const isPasswordMatched = user.comparePassword(confirmPassword);
+  // if (!isPasswordMatched) {
+  //   await user.deleteOne();
+  //   return next(new Error("Check both password"));
+  // }
 
   res.status(201).json({
     status: "success",
