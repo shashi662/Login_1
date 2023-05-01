@@ -22,6 +22,9 @@ app.use((req, res, next) => {
   next();
 }, authRouter);
 
+app.use((req, res, next, error) => {
+  return new Error(error.message);
+});
 mongoose
   .connect(
     `mongodb+srv://kumarshashikant05:Ef1w6oESWAwJ5J5c@cluster0.m86kdjb.mongodb.net/users`
