@@ -22,6 +22,17 @@ app.use((req, res, next) => {
   next();
 }, authRouter);
 
+app.all("*", (req, res) => {
+  res.status(404).json({
+    success: "false",
+    message: "Page not found",
+    error: {
+      statusCode: 404,
+      message: "You reached a route that is not defined on this server",
+    },
+  });
+});
+
 app.use((req, res, next, error) => {
   return new Error(error.message);
 });
