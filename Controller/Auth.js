@@ -28,22 +28,22 @@ const Signin = async (req, res) => {
 };
 
 const Signup = async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
   let user;
   try {
-    user = await User.create({ name, email, password });
+    user = await User.create({ name, email, password, confirmPassword });
   } catch (error) {
     return next(new Error("Email already in use"));
   }
-  // const isPasswordMatched = user.comparePassword(confirmPassword);
-  // if (!isPasswordMatched) {
-  //   await user.deleteOne();
-  //   return next(new Error("Check both password"));
-  // }
+  const isPasswordMatched = user.comparePassword(confirmPassword);
+  if (!isPasswordMatched) {
+    await user.deleteOne();
+    return next(new Error("Check both password"));
+  }
 
   res.status(201).json({
     status: "success",
-    data: req.body,
+    data: user,
   });
 };
 
