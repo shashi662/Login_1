@@ -39,7 +39,8 @@ app.use((req, res, next, error) => {
 });
 mongoose
   .connect(
-    `mongodb+srv://kumarshashikant05:Ef1w6oESWAwJ5J5c@cluster0.m86kdjb.mongodb.net/users`
+    // `mongodb+srv://kumarshashikant05:Ef1w6oESWAwJ5J5c@cluster0.m86kdjb.mongodb.net/users`
+    `mongodb+srv://kumarshashikant05:bYxzrnLmS30IvTLG@cluster0.m86kdjb.mongodb.net/test`
   )
   .then(() => {
     app.listen(process.env.PORT || 3000, () => {

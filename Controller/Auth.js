@@ -2,6 +2,7 @@ const sendMail = require("../Services/MailService");
 const User = require("../Model/UserSchema");
 
 const Signin = async (req, res, next) => {
+  
   const { email, password } = req.body;
   if (!email || !password) {
     return next("Please Provide credentials");
